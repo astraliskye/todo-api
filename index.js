@@ -37,6 +37,10 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.json({message: "Hello world!"})
+})
+
 app.use("/", authRouter);
 app.use("/todos", todosRouter);
 
