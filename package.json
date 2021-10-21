@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.27.2",
+    "connect-pg-simple": "^6.2.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.6.0",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "node ."
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
