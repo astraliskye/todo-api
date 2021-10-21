@@ -12,12 +12,7 @@ const PORT = process.env.PORT || 6969;
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(morgan("combined"));
 
@@ -27,11 +22,10 @@ app.use(
       pool,
       tableName: "todo_sessions",
     }),
-    secret: "seekret",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     cookie: {
       maxAge: 365 * 24 * 60 * 60 * 1000,
-      sameSite: "strict",
     },
     saveUninitialized: false,
   })

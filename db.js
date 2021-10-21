@@ -1,13 +1,13 @@
 const pg = require('pg')
-const {rowToObject} = require("./util.js")
+const {rowToObject, isProd} = require("./util")
 const {v4: uuidV4} = require("uuid")
 
 const pool = new pg.Pool({
-  user: "astra",
-  host: "localhost",
-  database: "todo",
-  password: "hike",
-  port: 5432,
+  max: 10,
+  connectionString: process.env.DATABASE_URL,
+  ssl: isProd ? {
+    rejectUnauthorized: false
+} : undefined
 });
 
 async function createUser(userDTO) {
