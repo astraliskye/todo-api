@@ -34,6 +34,8 @@ app.use(
 app.get("/", (req, res) => {
   res.send(`
     <h1>Welcome!</h1>
+    <p>This is a simple api for storing and tracking a list of tasks</p> 
+    <h2>Routes</h2>
     <ul>
       <li>POST /register</li>
       <li>POST /login</li>
@@ -43,6 +45,7 @@ app.get("/", (req, res) => {
       <li>PATCH /todos/:id</li>
       <li>DELETE /todos/:id</li>
     </ul>
+    <p>hi nico <3</p>
   `)
 })
 
