@@ -32,7 +32,18 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.json({message: "Hello world!"})
+  res.send(`
+    <h1>Welcome!</h1>
+    <ul>
+      <li>POST /register</li>
+      <li>POST /login</li>
+      <li>POST /logout</li>
+      <li>GET /todos</li>
+      <li>POST /todos</li>
+      <li>PATCH /todos/:id</li>
+      <li>DELETE /todos/:id</li>
+    </ul>
+  `)
 })
 
 app.use("/", authRouter);
