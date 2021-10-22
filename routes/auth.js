@@ -16,7 +16,7 @@ authRouter.post('/register',
     user.password = undefined;
     req.session.user = user;
 
-    res.json({message: "registration successful"})
+    res.json(user)
 }))
 
 authRouter.post('/login',
@@ -28,7 +28,7 @@ authRouter.post('/login',
     if (user && await argon2.verify(user.password, req.body.password)) {
         user.password = undefined
         req.session.user = user
-        res.json({message: "login successful"})
+        res.json(user)
     }
     else {
         res.status(401).json({message: "login unsuccessful"})
