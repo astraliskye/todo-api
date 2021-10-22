@@ -11,7 +11,7 @@ function idParam(req, res, next) {
     const {id} = req.params
 
     if (!uuidRegex.test(id))
-        res.status(400).json({error: {message: "invalid id"}})
+        res.status(400).json({message: "invalid id"})
     else
         next()
 }
@@ -20,7 +20,7 @@ function validCurrentUser(req, res, next) {
     const {user} = req.session
 
     if (!user) {
-        res.status(400).json({error: {message: "no user is logged in"}})
+        res.status(400).json({message: "no user is logged in"})
     }
     else if (!uuidRegex.test(user.id) ||
             typeof user.email !== 'string' ||
@@ -30,7 +30,7 @@ function validCurrentUser(req, res, next) {
             !timestampRegex.test(user.createdAt)) {
         console.log(uuidRegex.test(user.id));
         console.log(user)
-        res.status(400).json({error: {message: "current user in session is invalid, try logging out"}})
+        res.status(400).json({message: "current user in session is invalid, try logging out"})
     }
     else {
         next()
@@ -42,7 +42,7 @@ function noCurrentUser(req, res, next) {
         next()
     }
     else {
-        res.status(400).json({error: {message: "a user is already tied to this session"}})
+        res.status(400).json({message: "a user is already tied to this session"})
     }
 }
 
@@ -67,11 +67,11 @@ function register(req, res, next) {
     const {displayName, email, password} = req.body
 
     if (typeof displayName !== 'string' || displayName === '')
-        res.status(400).send({error: {message: 'invalid displayName'}})
+        res.status(400).send({message: 'invalid displayName'})
     else if (!emailRegex.test(email))
-        res.status(400).send({error: {message: 'invalid email'}})
+        res.status(400).send({message: 'invalid email'})
     else if (!passwordRegex.test(password))
-        res.status(400).send({error: {message: 'invalid password'}})
+        res.status(400).send({message: 'invalid password'})
     else {
         req.body = {
             displayName,
@@ -87,7 +87,7 @@ function createTodo(req, res, next) {
     const {task, description} = req.body
 
     if (typeof task !== 'string' || task === '')
-        res.status(400).send({error: {message: 'invalid task'}})
+        res.status(400).send({message: 'invalid task'})
     else {
         req.body = {
             task,
@@ -103,9 +103,9 @@ function updateTodo(req, res, next) {
     const {task, description, isComplete} = req.body
 
     if (typeof task !== 'string' || task === '')
-        res.status(400).send({error: {message: 'invalid task'}})
+        res.status(400).send({message: 'invalid task'})
     else if (typeof isComplete !== 'boolean')
-        res.status(400).send({error: {message: 'invalid isComplete'}})
+        res.status(400).send({message: 'invalid isComplete'})
     else {
         req.body = {
             task,
