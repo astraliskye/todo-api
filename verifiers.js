@@ -1,3 +1,5 @@
+const {getUserByEmail} = require("./db")
+
 const uuidRegex = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/
 
 // a number, a lowercase letter, an uppercase letter,
@@ -14,6 +16,15 @@ function idParam(req, res, next) {
         res.status(400).json({message: "invalid id"})
     else
         next()
+}
+
+async function uniqueEmail(req, res, next) {
+    const user = await getUserByEmail(req.body.email);
+
+    if (user)
+        return res.status(400).json({message: "email already in use"})
+
+    next()
 }
 
 function validCurrentUser(req, res, next) {
@@ -119,6 +130,7 @@ function updateTodo(req, res, next) {
 
 module.exports = {
     idParam,
+    uniqueEmail,
     validCurrentUser,
     noCurrentUser,
     register,
