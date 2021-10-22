@@ -40,7 +40,7 @@ authRouter.post("/logout", verifiers.validCurrentUser, (req, res) => {
         res.json({message: "logout successful"})
     }
     else {
-        res.status(400).json({error: {message: "no user in current session"}})
+        res.status(400).json({message: "no user in current session"})
     }
 })
 

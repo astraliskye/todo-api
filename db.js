@@ -7,7 +7,7 @@ const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: isProd ? {
     rejectUnauthorized: false
-} : undefined
+  } : undefined
 });
 
 async function createUser(userDTO) {
