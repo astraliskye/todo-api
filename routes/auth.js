@@ -7,7 +7,6 @@ const {asyncWrapper} = require("../util")
 const authRouter = Router()
 
 authRouter.post('/register',
-        verifiers.noCurrentUser,
         verifiers.register,
         verifiers.uniqueEmail,
         asyncWrapper(async (req, res, next) => {
@@ -20,7 +19,6 @@ authRouter.post('/register',
 }))
 
 authRouter.post('/login',
-        verifiers.noCurrentUser,
         verifiers.login,
         asyncWrapper(async (req, res) => {
     const user = await getUserByEmail(req.body.email)
@@ -35,14 +33,11 @@ authRouter.post('/login',
     }
 }))
 
-authRouter.post("/logout", verifiers.validCurrentUser, (req, res) => {
-    if (req.session.user) {
+authRouter.post("/logout", (req, res) => {
+    if (req.session.user)
         req.session.user = null
-        res.json({message: "logout successful"})
-    }
-    else {
-        res.status(400).json({message: "no user in current session"})
-    }
+
+    res.json({message: "logout success"})
 })
 
 authRouter.get("/me", (req, res) => {
