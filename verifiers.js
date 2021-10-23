@@ -128,6 +128,21 @@ function updateTodo(req, res, next) {
     }
 }
 
+function validateUser(user) {
+    if (!uuidRegex.test(user.id) ||
+            typeof user.email !== 'string' ||
+            user.email === '' ||
+            typeof user.displayName !== 'string' ||
+            user.displayName === '' ||
+            !timestampRegex.test(user.createdAt)) {
+        console.log(uuidRegex.test(user.id));
+        console.log(user)
+        return false
+    }
+
+    return true
+}
+
 module.exports = {
     idParam,
     uniqueEmail,
@@ -136,5 +151,6 @@ module.exports = {
     register,
     login,
     createTodo,
-    updateTodo
+    updateTodo,
+    validateUser
 }
