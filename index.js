@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 6969;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: true
+}));
 
 app.use(morgan("combined"));
 
@@ -26,7 +29,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: false,
     cookie: {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
+      maxAge: 365 * 24 * 60 * 60 * 1000
     },
     saveUninitialized: false,
   })
