@@ -41,9 +41,8 @@ authRouter.post("/logout", (req, res) => {
 })
 
 authRouter.get("/me", (req, res) => {
-    if (req.session.user && verifiers.validateUser(req.session.user)) {
+    if (req.session.user && verifiers.validateUser(req.session.user))
         res.json(req.session.user)
-    }
     else
         res.status(401).json({message: "unauthenticated"})
 })

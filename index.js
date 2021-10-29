@@ -18,7 +18,7 @@ app.use(cors({
   origin: true
 }));
 
-app.use(morgan("combined"));
+app.use(morgan("tiny"));
 
 app.use(
   session({
@@ -37,19 +37,93 @@ app.use(
 
 app.get("/", (req, res) => {
   res.send(`
-    <h1>Welcome!</h1>
-    <p>This is a simple api for storing and tracking a list of tasks</p> 
-    <h2>Routes</h2>
-    <ul>
-      <li>POST /register</li>
-      <li>POST /login</li>
-      <li>POST /logout</li>
-      <li>GET /todos</li>
-      <li>POST /todos</li>
-      <li>PATCH /todos/:id</li>
-      <li>DELETE /todos/:id</li>
-    </ul>
-    <p>hi nico <3</p>
+    <head>
+      <style>
+        * {
+          font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif;
+        }
+
+        h1, p {
+          text-align: center;
+        }
+
+        h1 {
+          padding-top: 20px;
+        }
+
+        p {
+          padding-bottom: 20px;
+        }
+
+        table {
+          width: 500px;
+          margin: 0 auto;
+          border-spacing: 0;
+          box-shadow: 0px 4px 10px #d4d8db;
+        }
+
+        td {
+          background-color: #f4f8fb;
+          padding: 10px;
+        }
+
+        th {
+          background-color: #34383b;
+          color: white;
+          padding: 20px;
+        }
+
+        td:nth-child(2) {
+          text-align: center;
+        }
+
+        code {
+          	font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Welcome!</h1>
+      <p>This is a simple api for storing and tracking a list of tasks</p>
+      <table>
+        <tr>
+          <th>route</th>
+          <th>expected body (JSON)</th>
+        </tr>
+        <tr>
+          <td>POST /register</td>
+          <td><code>{ email, displayName, password }</code></td>
+        </tr>
+        <tr>
+          <td>POST /login</td>
+          <td><code>{ email, password }</code></td>
+        </tr>
+        <tr>
+          <td>POST /logout</td>
+          <td><code>{ email, password }</code></td>
+        </tr>
+        <tr>
+          <td>GET /me</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>GET /todos</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>POST /todos</td>
+          <td><code>{ task, isComplete }</code></td>
+        </tr>
+        <tr>
+          <td>PATCH /todos/:id</td>
+          <td>Optional: <code>{ task, isComplete }</code></td>
+        </tr>
+        <tr>
+          <td>DELETE /todos/:id</td>
+          <td>none</td>
+        </tr>
+      </table>
+    </body>
   `)
 })
 
