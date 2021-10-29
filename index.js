@@ -112,11 +112,11 @@ app.get("/", (req, res) => {
         </tr>
         <tr>
           <td>POST /todos</td>
-          <td><code>{ task, isComplete }</code></td>
+          <td><code>{ task, description, isComplete }</code></td>
         </tr>
         <tr>
           <td>PATCH /todos/:id</td>
-          <td>Optional: <code>{ task, isComplete }</code></td>
+          <td>Optional: <code>{ task, description, isComplete }</code></td>
         </tr>
         <tr>
           <td>DELETE /todos/:id</td>
