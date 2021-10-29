@@ -41,6 +41,8 @@ app.get("/", (req, res) => {
       <style>
         * {
           font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif;
+          box-sizing: border-box;
+          margin: 0;
         }
 
         h1, p {
@@ -48,11 +50,11 @@ app.get("/", (req, res) => {
         }
 
         h1 {
-          padding-top: 20px;
+          padding: 20px;
         }
 
         p {
-          padding-bottom: 20px;
+          padding-bottom: 40px;
         }
 
         table {
@@ -80,49 +82,61 @@ app.get("/", (req, res) => {
         code {
           	font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
         }
+
+        .fullscreen {
+          width: 100vw;
+          max-width: 100vw;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
       </style>
     </head>
     <body>
-      <h1>Welcome!</h1>
-      <p>This is a simple api for storing and tracking a list of tasks</p>
-      <table>
-        <tr>
-          <th>route</th>
-          <th>expected body (JSON)</th>
-        </tr>
-        <tr>
-          <td>POST /register</td>
-          <td><code>{ email, displayName, password }</code></td>
-        </tr>
-        <tr>
-          <td>POST /login</td>
-          <td><code>{ email, password }</code></td>
-        </tr>
-        <tr>
-          <td>POST /logout</td>
-          <td><code>{ email, password }</code></td>
-        </tr>
-        <tr>
-          <td>GET /me</td>
-          <td>none</td>
-        </tr>
-        <tr>
-          <td>GET /todos</td>
-          <td>none</td>
-        </tr>
-        <tr>
-          <td>POST /todos</td>
-          <td><code>{ task, description, isComplete }</code></td>
-        </tr>
-        <tr>
-          <td>PATCH /todos/:id</td>
-          <td>Optional: <code>{ task, description, isComplete }</code></td>
-        </tr>
-        <tr>
-          <td>DELETE /todos/:id</td>
-          <td>none</td>
-        </tr>
-      </table>
+      <div class="fullscreen">
+        <h1>Welcome!</h1>
+        <p>This is a simple api for storing and tracking a list of tasks</p>
+        <table>
+          <tr>
+            <th>route</th>
+            <th>expected body (JSON)</th>
+          </tr>
+          <tr>
+            <td>POST /register</td>
+            <td><code>{ email, displayName, password }</code></td>
+          </tr>
+          <tr>
+            <td>POST /login</td>
+            <td><code>{ email, password }</code></td>
+          </tr>
+          <tr>
+            <td>POST /logout</td>
+            <td><code>{ email, password }</code></td>
+          </tr>
+          <tr>
+            <td>GET /me</td>
+            <td>none</td>
+          </tr>
+          <tr>
+            <td>GET /todos</td>
+            <td>none</td>
+          </tr>
+          <tr>
+            <td>POST /todos</td>
+            <td><code>{ task, description, isComplete }</code></td>
+          </tr>
+          <tr>
+            <td>PATCH /todos/:id</td>
+            <td>Optional: <code>{ task, description, isComplete }</code></td>
+          </tr>
+          <tr>
+            <td>DELETE /todos/:id</td>
+            <td>none</td>
+          </tr>
+        </table>
+      </div>
     </body>
   `)
 })
