@@ -25,7 +25,7 @@ todosRouter.patch("/:id",
 	verifiers.updateTodo,
 	verifiers.validCurrentUser,
 	asyncWrapper(async (req, res) => {
-		const todoCheck = await getTodoById(req.body.id);
+		const todoCheck = await getTodoById(req.params.id);
 
 		if (todoCheck.userId !== req.session.user.id) {
 			return res.status(401).json({message: "unauthorized"});
