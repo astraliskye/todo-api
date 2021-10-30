@@ -145,6 +145,10 @@ app.get("/", (_req, res) => {
 app.use("/", authRouter);
 app.use("/todos", todosRouter);
 
+app.use((req, res) => {
+	res.status(404).json({message: "route inaccessible or does not exist"});
+});
+
 app.use((err, req, res, next) => {
 	console.error(err.message);
 	res.status(500).json({error: {message: "something went wrong"}});

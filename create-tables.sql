@@ -14,7 +14,6 @@ create table users (
 create table todos (
     id              uuid,
     task            text not null,
-    description     text,
     is_complete     boolean not null,
     created_at      timestamp default current_timestamp,
     user_id         uuid not null,
