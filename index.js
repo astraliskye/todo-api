@@ -39,6 +39,7 @@ app.use(
 app.use((req, res, next) => {
 	console.log("===User===", req.session.user);
 	console.log("===Body===", req.body);
+	next();
 });
 
 app.get("/", (_req, res) => {
