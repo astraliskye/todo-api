@@ -36,6 +36,11 @@ app.use(
 	})
 );
 
+app.use((req, res, next) => {
+	console.log("===User===", req.session.user);
+	console.log("===Body===", req.body);
+});
+
 app.get("/", (_req, res) => {
 	res.send(`
     <head>
