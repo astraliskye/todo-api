@@ -9,7 +9,7 @@ const authRouter = Router();
 authRouter.post("/register",
 	verifiers.register,
 	verifiers.uniqueEmail,
-	asyncWrapper(async (req, res, next) => {
+	asyncWrapper(async (req, res) => {
 		req.body.password = await argon2.hash(req.body.password);
 		const user = await createUser(req.body);
 		user.password = undefined;
