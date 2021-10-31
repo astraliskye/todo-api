@@ -8,6 +8,7 @@ const cors = require("cors");
 const { pool } = require("./db");
 const todosRouter = require("./routes/todos");
 const authRouter = require("./routes/auth");
+const { isProd } = require("./util");
 
 const PORT = process.env.PORT || 6969;
 
@@ -30,7 +31,8 @@ app.use(
 		secret: process.env.COOKIE_SECRET,
 		resave: false,
 		cookie: {
-			maxAge: 365 * 24 * 60 * 60 * 1000
+			maxAge: 365 * 24 * 60 * 60 * 1000,
+			secure: isProd
 		},
 		name: "test",
 		saveUninitialized: false,
@@ -38,6 +40,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
+	console.log("===Headers===", req.headers);
 	console.log("===User===", req.session.user);
 	console.log("===Body===", req.body);
 	next();
