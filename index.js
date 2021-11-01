@@ -31,7 +31,8 @@ app.use(
 		secret: process.env.COOKIE_SECRET,
 		resave: false,
 		cookie: {
-			maxAge: 365 * 24 * 60 * 60 * 1000
+			maxAge: 365 * 24 * 60 * 60 * 1000,
+			domain: ".herokuapp.com"
 		},
 		name: "test",
 		saveUninitialized: false,
