@@ -22,6 +22,8 @@ app.use(cors({
 
 app.use(morgan("tiny"));
 
+app.enable("trust proxy");
+
 app.use(
 	session({
 		store: new pgSession({
@@ -29,13 +31,13 @@ app.use(
 			tableName: "todo_sessions",
 		}),
 		secret: process.env.COOKIE_SECRET,
-		resave: true,
+		resave: false,
 		cookie: {
 			maxAge: 365 * 24 * 60 * 60 * 1000,
 			domain: ".herokuapp.com"
 		},
 		name: "test",
-		saveUninitialized: true,
+		saveUninitialized: false,
 	})
 );
 
