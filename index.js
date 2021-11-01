@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
 	credentials: true,
-	origin: isProd ? process.env.CLIENT_URL : true
+	origin: true
 }));
 
 app.use(morgan("tiny"));
