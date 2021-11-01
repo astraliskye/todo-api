@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
 	credentials: true,
-	origin: true
+	origin: isProd ? process.env.CLIENT_URL : true
 }));
 
 app.use(morgan("tiny"));
@@ -33,9 +33,12 @@ app.use(
 		secret: process.env.COOKIE_SECRET,
 		resave: false,
 		cookie: {
-			maxAge: 365 * 24 * 60 * 60 * 1000
+			maxAge: 365 * 24 * 60 * 60 * 1000,
+			domain: isProd ? ".herokuapp.com" : "localhost"
 		},
-		name: "tsst",
+		secure: isProd,
+		name: "sessionID",
+		httpOnly: true,
 		saveUninitialized: false,
 	})
 );
