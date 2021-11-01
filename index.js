@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
 	credentials: true,
-	origin: true
+	origin: isProd ? process.env.CLIENT_URL : true
 }));
 
 app.use(morgan("tiny"));
@@ -38,7 +38,6 @@ app.use(
 		},
 		secure: isProd,
 		name: "sessionID",
-		httpOnly: true,
 		saveUninitialized: false,
 	})
 );
