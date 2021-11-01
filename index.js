@@ -14,33 +14,36 @@ const PORT = process.env.PORT || 6969;
 
 const app = express();
 
-app.use(express.json());
-app.use(cors({
+const corsConfig = {
 	credentials: true,
 	origin: isProd ? process.env.CLIENT_URL : true
-}));
+};
 
+const sessionConfig = {
+	store: new pgSession({
+		pool,
+		tableName: "todo_sessions",
+	}),
+	secret: process.env.COOKIE_SECRET,
+	resave: false,
+	cookie: {
+		maxAge: 365 * 24 * 60 * 60 * 1000,
+		domain: isProd ? ".herokuapp.com" : "localhost"
+	},
+	secure: isProd,
+	name: "sessionID",
+	httpOnly: true,
+	saveUninitialized: false,
+};
+
+console.log("Cors config", corsConfig);
+console.log("Session config", sessionConfig);
+
+app.use(express.json());
+app.use(cors(corsConfig));
 app.use(morgan("tiny"));
-
 app.enable("trust proxy");
-
-app.use(
-	session({
-		store: new pgSession({
-			pool,
-			tableName: "todo_sessions",
-		}),
-		secret: process.env.COOKIE_SECRET,
-		resave: false,
-		cookie: {
-			maxAge: 365 * 24 * 60 * 60 * 1000,
-			domain: isProd ? ".herokuapp.com" : "localhost"
-		},
-		secure: isProd,
-		name: "sessionID",
-		saveUninitialized: false,
-	})
-);
+app.use(session(sessionConfig));
 
 app.use((req, res, next) => {
 	console.log("===ENV===", process.env);
