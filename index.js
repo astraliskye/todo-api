@@ -29,13 +29,13 @@ app.use(
 			tableName: "todo_sessions",
 		}),
 		secret: process.env.COOKIE_SECRET,
-		resave: false,
+		resave: true,
 		cookie: {
 			maxAge: 365 * 24 * 60 * 60 * 1000,
 			domain: ".herokuapp.com"
 		},
 		name: "test",
-		saveUninitialized: false,
+		saveUninitialized: true,
 	})
 );
 
