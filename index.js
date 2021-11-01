@@ -42,7 +42,7 @@ app.use(
 
 app.use((req, res, next) => {
 	console.log("===Headers===", req.headers);
-	console.log("===User===", req.session.user);
+	console.log("===Session===", req.session);
 	console.log("===Body===", req.body);
 	next();
 });
