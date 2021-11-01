@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 6969;
 
 const app = express();
 
+if (process.env.DEBUG) {
+	console.log( `DEBUG is set to ${process.env.DEBUG}`);
+}
+
 app.use(express.json());
 app.use(cors({
 	credentials: true,
