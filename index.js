@@ -16,7 +16,7 @@ const app = express();
 
 const corsConfig = {
 	credentials: true,
-	origin: isProd ? process.env.CLIENT_URL : true
+	origin: true
 };
 
 const sessionConfig = {
@@ -28,11 +28,9 @@ const sessionConfig = {
 	resave: false,
 	cookie: {
 		maxAge: 365 * 24 * 60 * 60 * 1000,
-		domain: isProd ? ".herokuapp.com" : "localhost"
 	},
 	secure: isProd,
 	name: "sessionID",
-	httpOnly: true,
 	saveUninitialized: false,
 };
 
