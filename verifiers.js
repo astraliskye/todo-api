@@ -4,7 +4,6 @@ const uuidRegex = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
 
 // a number, a lowercase letter, an uppercase letter,
 //  and at least 8 characters long
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const timestampRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$/;
@@ -81,7 +80,7 @@ function register(req, res, next) {
 		res.status(400).send({message: "invalid displayName"});
 	else if (!emailRegex.test(email))
 		res.status(400).send({message: "invalid email"});
-	else if (!passwordRegex.test(password))
+	else if (typeof password !== "string" && password === "")
 		res.status(400).send({message: "invalid password"});
 	else {
 		req.body = {
