@@ -3,22 +3,18 @@ drop table users cascade;
 drop table todo_sessions cascade;
 
 create table users (
-    id              uuid,
-    display_name    varchar unique not null,
+    id              uuid primary key,
+    displayName     varchar unique not null,
     email           varchar unique not null,
     password        varchar not null,
-    created_at      timestamp default current_timestamp,
-    primary key (id)
+    createdAt       timestamp default current_timestamp
 );
 
 create table todos (
-    id              uuid,
-    task            text not null,
-    is_complete     boolean not null,
-    created_at      timestamp default current_timestamp,
-    user_id         uuid not null,
-    primary key (id),
-    foreign key (user_id) references users(id)
+    id            uuid primary key,
+    task          text not null,
+    isComplete    boolean not null,
+    userId        uuid references users(id) not null
 );
 
 -- Necessary for connect-pg-simple, which for connecting express-session to the postgresql database

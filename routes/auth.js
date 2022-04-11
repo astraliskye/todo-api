@@ -1,42 +1,55 @@
 const argon2 = require("argon2");
 const { Router } = require("express");
-const { createUser, getUserByEmail, query } = require("../db");
+const { query } = require("../db");
 const {
 	registerValidator, loginValidator, validUserSession
 } = require("../validation");
 const { asyncWrapper } = require("../util");
+const { v4: uuidV4 } = require("uuid");
 
 const authRouter = Router();
 
 authRouter.post("/register",
 	registerValidator,
 	asyncWrapper(async (req, res) => {
-		req.body.password = await argon2.hash(req.body.password);
-		const user = await createUser(req.body);
-		user.password = undefined;
-		req.session.userId = user.id;
+		const { displayName, email, password } = req.body;
+		const hashedPassword = await argon2.hash(password);
 
-		res.json(user);
-	}));
+		// Insert new user and return user info to app (without password)
+		const { rows: [user] } = await query(`
+      INSERT INTO users (id, displayName, email, password)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, displayName, email, createdAt
+    `, [uuidV4(), displayName, email, hashedPassword]);
+    
+		req.session.userId = user.id;
+		res.send(user);
+	})
+);
 
 authRouter.post("/login",
 	loginValidator,
 	asyncWrapper(async (req, res) => {
-		const user = await getUserByEmail(req.body.email);
+		const { password } = req.body;
+		const { rows } = await query("SELECT * FROM users WHERE email=$1");
 
-		if (user && await argon2.verify(user.password, req.body.password)) {
-			user.password = undefined;
-			req.session.userId = user.id;
-			res.json(user);
+		// If only one user exists for the given email and the password
+		// matches, the user is authenticated and the user's info is sent to the
+		// app (without the password)
+		if (rows.length === 1
+      && await argon2.verify(rows[0].password, password)) {
+			rows[0].password = undefined;
+			req.session.userId = rows[0].id;
+			res.send(rows[0]);
+		} else {
+			res.status(401).send({ message: "login unsuccessful" });
 		}
-		else {
-			res.status(401).json({ message: "login unsuccessful" });
-		}
-	}));
+	})
+);
 
 authRouter.post("/logout", (req, res) => {
 	req.session.userId = null;
-	res.json({ message: "logout success" });
+	res.send({ message: "logout success" });
 });
 
 authRouter.get("/me", validUserSession, (req, res) => {
@@ -44,7 +57,7 @@ authRouter.get("/me", validUserSession, (req, res) => {
 		rows: [user]
 	} = query("SELECT * FROM users WHERE id=$1", [req.session.userId]);
 	user.password = undefined;
-	res.json(user);
+	res.send(user);
 });
 
 module.exports = authRouter;
