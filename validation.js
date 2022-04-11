@@ -30,13 +30,6 @@ const paramIdSchema = Joi.object({
 	id: Joi.string().regex(uuidRegex).required()
 });
 
-const userSchema = Joi.object({
-	id: Joi.string().regex(uuidRegex).required(),
-	email: Joi.string().required(),
-	displayName: Joi.string().required(),
-	createdAt: Joi.string().regex(timestampRegex).required()
-});
-
 function validUserSession(req, res, next) {
 	const { userId } = req.session;
 
