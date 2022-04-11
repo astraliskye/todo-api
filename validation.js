@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const validator = require("express-joi-validation").createValidator({});
 const { query } = require("./db");
-const { emailRegex, uuidRegex, timestampRegex } = require("./util");
+const { emailRegex, uuidRegex } = require("./util");
 
 const registerSchema = Joi.object({
 	displayName: Joi.string().required(),
