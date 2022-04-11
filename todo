@@ -3,12 +3,12 @@
 - [x] Remove request logging stuff
 - [x] Add yarn script for init-db "psql -d todo -f create-tables.sql"
 - [x] Use env vars to connect to postgres and other stuff
-- [] Eliminate use of snake_to_camel (maybe an ORM)
+- [x] Eliminate use of snake_to_camel (maybe an ORM)
 - [x] Use library for validation (joi?)
 - [x] Eliminate landing page
 - [x] Add apache 2.0 LICENSE file
 - [x] Add README file
-- [] Use res.send() over res.json()
+- [x] Use res.send() over res.json()
 - [] Remove asyncWrapper
 - [] Start good error handling
 - [] Catch error when email isn't unique
