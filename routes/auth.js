@@ -4,14 +4,12 @@ const { query } = require("../db");
 const {
 	registerValidator, loginValidator, validUserSession
 } = require("../validation");
-const { asyncWrapper } = require("../util");
 const { v4: uuidV4 } = require("uuid");
 
 const authRouter = Router();
 
 authRouter.post("/register",
-	registerValidator,
-	asyncWrapper(async (req, res) => {
+	registerValidator, async (req, res) => {
 		const { displayName, email, password } = req.body;
 		const hashedPassword = await argon2.hash(password);
 
@@ -24,12 +22,11 @@ authRouter.post("/register",
     
 		req.session.userId = user.id;
 		res.send(user);
-	})
+	}
 );
 
 authRouter.post("/login",
-	loginValidator,
-	asyncWrapper(async (req, res) => {
+	loginValidator, async (req, res) => {
 		const { password } = req.body;
 		const { rows } = await query("SELECT * FROM users WHERE email=$1");
 
@@ -44,7 +41,7 @@ authRouter.post("/login",
 		} else {
 			res.status(401).send({ message: "login unsuccessful" });
 		}
-	})
+	}
 );
 
 authRouter.post("/logout", (req, res) => {

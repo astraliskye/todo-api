@@ -1,6 +1,5 @@
 const { query } = require("../db");
 const { Router } = require("express");
-const { asyncWrapper } = require("../util");
 const {
 	validUserSession, postTodoValidator, paramIdValidator, patchTodoValidator
 } = require("../validation");
@@ -9,8 +8,7 @@ const { v4: uuidV4 } = require("uuid");
 const todosRouter = Router();
 
 todosRouter.get("/",
-	validUserSession,
-	asyncWrapper(async (req, res) => {
+	validUserSession, async (req, res) => {
 		const { userId } = req.session;
     
 		const { rows: todos } = await query(`
@@ -21,13 +19,12 @@ todosRouter.get("/",
     `, [userId]);
 
 		res.send(todos);
-	})
+	}
 );
 
 todosRouter.post("/",
 	postTodoValidator,
-	validUserSession,
-	asyncWrapper(async (req, res) => {
+	validUserSession, async (req, res) => {
 		const { task, description, isComplete } = req.body;
 		const { userId } = req.session;
 
@@ -38,14 +35,13 @@ todosRouter.post("/",
     `, [uuidV4(), task, description, isComplete, userId]);
     
 		res.send(todo);
-	})
+	}
 );
 
 todosRouter.patch("/:id",
 	paramIdValidator,
 	patchTodoValidator,
-	validUserSession,
-	asyncWrapper(async (req, res) => {
+	validUserSession, async (req, res) => {
 		const { id } = req.params;
 		const { task, description, isComplete } = req.body;
 
@@ -68,13 +64,12 @@ todosRouter.patch("/:id",
     `, [id, task, description, isComplete]);
 
 		res.send(todo);
-	})
+	}
 );
 
 todosRouter.delete("/:id",
 	paramIdValidator,
-	validUserSession,
-	asyncWrapper(async (req, res) => {
+	validUserSession, async (req, res) => {
 		const { id } = req.params;
 
 		const { rows } = await query(`
@@ -95,7 +90,7 @@ todosRouter.delete("/:id",
     `, [id]);
 
 		res.send({ message: "successfully deleted todo" });
-	})
+	}
 );
 
 module.exports = todosRouter;
