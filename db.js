@@ -1,6 +1,6 @@
 const pg = require("pg");
-const {rowToObject, isProd} = require("./util");
-const {v4: uuidV4} = require("uuid");
+const { rowToObject, isProd } = require("./util");
+const { v4: uuidV4 } = require("uuid");
 
 const pool = new pg.Pool({
 	max: 10,
@@ -11,7 +11,7 @@ const pool = new pg.Pool({
 });
 
 async function createUser(userDTO) {
-	const {displayName, email, password} = userDTO;
+	const { displayName, email, password } = userDTO;
 
 	const { rows: [user] } = await pool.query(`
       insert into users (id, display_name, email, password)
@@ -34,7 +34,7 @@ async function getUserByEmail(email) {
 }
 
 async function getTodosByUserId(userId) {
-	const {rows} = await pool.query(`
+	const { rows } = await pool.query(`
     select *
     from todos
     where user_id=$1
@@ -45,7 +45,7 @@ async function getTodosByUserId(userId) {
 }
 
 async function getTodoById(id) {
-	const {rows} = await pool.query(`
+	const { rows } = await pool.query(`
     select *
     from todos
     where id=$1
@@ -55,7 +55,7 @@ async function getTodoById(id) {
 }
 
 async function createTodo(userId, todoDTO) {
-	const {task, description, isComplete} = todoDTO;
+	const { task, description, isComplete } = todoDTO;
 
 	const { rows: [user] } = await pool.query(`
       insert into todos (id, task, description, is_complete, user_id)
@@ -74,9 +74,9 @@ async function createTodo(userId, todoDTO) {
 }
 
 async function updateTodo(id, todoDTO) {
-	const {task, description, isComplete} = todoDTO;
+	const { task, description, isComplete } = todoDTO;
 
-	const {rows} = await pool.query(`
+	const { rows } = await pool.query(`
     update todos
     set task=$2, description=$3, is_complete=$4
     where id=$1
@@ -103,5 +103,6 @@ module.exports = {
 	createTodo,
 	updateTodo,
 	deleteTodo,
-	pool
+	pool,
+	query: pool.query
 };

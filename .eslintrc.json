@@ -25,6 +25,14 @@
             "error",
             "always"
         ],
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "object-curly-spacing": [
+          "error",
+          "always"
+        ],
+        "max-len": [
+          "error",
+          {"code": 80}
+        ]
     }
 }
