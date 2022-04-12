@@ -17,7 +17,7 @@ const loginSchema = Joi.object({
 const postTodoSchema = Joi.object({
 	task: Joi.string().required(),
 	description: Joi.string(),
-	isComplete: false
+	isComplete: Joi.bool().required()
 });
 
 const patchTodoSchema = Joi.object({
@@ -33,8 +33,6 @@ const paramIdSchema = Joi.object({
 async function validUserSession(req, res, next) {
 	const { userId } = req.session;
 	const { rows } = await query("SELECT * FROM users WHERE id=$1", [userId]);
-
-	console.log(`userId: ${userId}\nnumber of rows: ${rows.length}`);
 
 	if (rows.length === 1)
 		next();

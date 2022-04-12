@@ -16,9 +16,9 @@ authRouter.post("/register",
 
 			// Insert new user and return user info to app (without password)
 			const { rows: [user] } = await query(`
-        INSERT INTO users (id, displayName, email, password)
+        INSERT INTO users (id, "displayName", email, password)
         VALUES ($1, $2, $3, $4)
-        RETURNING id, displayName, email, createdAt
+        RETURNING id, "displayName", email, "createdAt"
       `, [uuidV4(), displayName, email, hashedPassword]);
     
 			req.session.userId = user.id;

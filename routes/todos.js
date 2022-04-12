@@ -16,7 +16,7 @@ todosRouter.get("/",
       SELECT *
       FROM todos
       WHERE userId=$1
-      ORDER BY createdAt DESC, task
+      ORDER BY "createdAt DESC, task
     `, [userId]);
 
 		return res.send(todos);
@@ -31,9 +31,9 @@ todosRouter.post("/",
 
 		// Insert new todo
 		const { rows: [todo] } = await query(`
-      INSERT INTO todos (id, task, description, isComplete, userId)
+      INSERT INTO todos (id, task, description, "isComplete", "userId")
       VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, task, description, isComplete, userId
+      RETURNING id, task, description, "isComplete", "userId"
     `, [uuidV4(), task, description, isComplete, userId]);
     
 		return res.send(todo);
