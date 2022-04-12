@@ -45,7 +45,6 @@ todosRouter.patch("/:id",
 	patchTodoValidator,
 	validUserSession, async (req, res) => {
 		const { id } = req.params;
-		const { task, description, isComplete } = req.body;
 
 		// Check if todo exists, then update todo if it does
 		const { rows } = await query(`
@@ -60,12 +59,26 @@ todosRouter.patch("/:id",
 		if (rows[0].userId !== req.session.userId)
 			return res.status(401).json({ message: "unauthorized" });
 
-		const { rows: [todo] } = await query(`
-      UPDATE todos
-      SET task=$2, description=$3, "isComplete"=$4
-      WHERE id=$1
-      RETURNING id, task, description, "isComplete", "createdAt", "userId"
-    `, [id, task, description, isComplete]);
+		const queryBuilder = ["UPDATE todos", "SET"];
+		const updates = [];
+
+		let placeHolder = 2;
+		for (let property in req.body) {
+			updates.push(`"${property}"=$${placeHolder}`);
+			placeHolder++;
+		}
+		queryBuilder.push(updates.join(", "));
+		queryBuilder.push("WHERE id=$1");
+		queryBuilder.push(
+			`RETURNING id, task, description,
+      "isComplete", "createdAt", "userId"`
+		);
+    
+		console.log(queryBuilder.join(" "));
+
+		const { rows: [todo] } = await query(
+			queryBuilder.join(" "),
+			[id, ...Object.values(req.body)]);
 
 		return res.send(todo);
 	}

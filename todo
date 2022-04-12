@@ -12,4 +12,4 @@
 - [x] Remove asyncWrapper
 - [] Start good error handling
 - [x] Catch error when email isn't unique
-- [] PATCH /todo/:id should be able to update only specific fields
+- [x] PATCH /todo/:id should be able to update only specific fields
