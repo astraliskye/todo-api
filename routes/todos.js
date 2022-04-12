@@ -11,6 +11,7 @@ todosRouter.get("/",
 	validUserSession, async (req, res) => {
 		const { userId } = req.session;
     
+		// Get all todos for a specific user
 		const { rows: todos } = await query(`
       SELECT *
       FROM todos
@@ -18,7 +19,7 @@ todosRouter.get("/",
       ORDER BY createdAt DESC, task
     `, [userId]);
 
-		res.send(todos);
+		return res.send(todos);
 	}
 );
 
@@ -28,13 +29,14 @@ todosRouter.post("/",
 		const { task, description, isComplete } = req.body;
 		const { userId } = req.session;
 
+		// Insert new todo
 		const { rows: [todo] } = await query(`
       INSERT INTO todos (id, task, description, isComplete, userId)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id, task, description, isComplete, userId
     `, [uuidV4(), task, description, isComplete, userId]);
     
-		res.send(todo);
+		return res.send(todo);
 	}
 );
 
@@ -45,6 +47,7 @@ todosRouter.patch("/:id",
 		const { id } = req.params;
 		const { task, description, isComplete } = req.body;
 
+		// Check if todo exists, then update todo if it does
 		const { rows } = await query(`
       SELECT *
       FROM todos
@@ -63,7 +66,7 @@ todosRouter.patch("/:id",
       WHERE id=$1
     `, [id, task, description, isComplete]);
 
-		res.send(todo);
+		return res.send(todo);
 	}
 );
 
@@ -72,6 +75,7 @@ todosRouter.delete("/:id",
 	validUserSession, async (req, res) => {
 		const { id } = req.params;
 
+		// Delete todo if it exists
 		const { rows } = await query(`
       SELECT *
       FROM todos
@@ -89,7 +93,7 @@ todosRouter.delete("/:id",
       WHERE id=$1
     `, [id]);
 
-		res.send({ message: "successfully deleted todo" });
+		return res.send({ message: "successfully deleted todo" });
 	}
 );
 

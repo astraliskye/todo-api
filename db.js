@@ -11,5 +11,5 @@ const pool = new pg.Pool({
 
 module.exports = {
 	pool,
-	query: pool.query
+	query(text, args) { pool.query(text, args); }
 };

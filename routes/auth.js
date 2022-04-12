@@ -21,8 +21,8 @@ authRouter.post("/register",
     `, [uuidV4(), displayName, email, hashedPassword]);
     
 		req.session.userId = user.id;
-		res.send(user);
-	}
+		return res.send(user);
+	} 
 );
 
 authRouter.post("/login",
@@ -31,22 +31,22 @@ authRouter.post("/login",
 		const { rows } = await query("SELECT * FROM users WHERE email=$1");
 
 		// If only one user exists for the given email and the password
-		// matches, the user is authenticated and the user's info is sent to the
-		// app (without the password)
+		// matches, the user is authenticated and the user's info is sent to
+		// the app (without the password)
 		if (rows.length === 1
       && await argon2.verify(rows[0].password, password)) {
 			rows[0].password = undefined;
 			req.session.userId = rows[0].id;
-			res.send(rows[0]);
+			return res.send(rows[0]);
 		} else {
-			res.status(401).send({ message: "login unsuccessful" });
+			return res.status(401).send({ message: "login unsuccessful" });
 		}
 	}
 );
 
 authRouter.post("/logout", (req, res) => {
 	req.session.userId = null;
-	res.send({ message: "logout success" });
+	return res.send({ message: "logout success" });
 });
 
 authRouter.get("/me", validUserSession, (req, res) => {
@@ -54,7 +54,7 @@ authRouter.get("/me", validUserSession, (req, res) => {
 		rows: [user]
 	} = query("SELECT * FROM users WHERE id=$1", [req.session.userId]);
 	user.password = undefined;
-	res.send(user);
+	return res.send(user);
 });
 
 module.exports = authRouter;
