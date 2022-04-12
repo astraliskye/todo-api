@@ -49,9 +49,4 @@ app.use((req, res) => {
 	res.status(404).json({ message: "route inaccessible or does not exist" });
 });
 
-app.use((err, req, res, next) => {
-	console.error(err.stack);
-	res.status(500).json({ error: { message: "something went wrong" } });
-});
-
 module.exports = app;

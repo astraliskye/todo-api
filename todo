@@ -9,7 +9,7 @@
 - [x] Add apache 2.0 LICENSE file
 - [x] Add README file
 - [x] Use res.send() over res.json()
-- [] Remove asyncWrapper
+- [x] Remove asyncWrapper
 - [] Start good error handling
 - [] Catch error when email isn't unique
 - [] PATCH /todo/:id should be able to update only specific fields
