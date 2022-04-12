@@ -24,6 +24,11 @@ authRouter.post("/register",
 			req.session.userId = user.id;
 			return res.send(user);
 		} catch (err) {
+			if (err.code === "23505") {
+				return res.status(401).send({
+					message: "username already exists"
+				});
+			}
 			next(err);
 		}
 	} 
