@@ -9,19 +9,23 @@ const { v4: uuidV4 } = require("uuid");
 const authRouter = Router();
 
 authRouter.post("/register",
-	registerValidator, async (req, res) => {
-		const { displayName, email, password } = req.body;
-		const hashedPassword = await argon2.hash(password);
+	registerValidator, async (req, res, next) => {
+		try {
+			const { displayName, email, password } = req.body;
+			const hashedPassword = await argon2.hash(password);
 
-		// Insert new user and return user info to app (without password)
-		const { rows: [user] } = await query(`
-      INSERT INTO users (id, displayName, email, password)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, displayName, email, createdAt
-    `, [uuidV4(), displayName, email, hashedPassword]);
+			// Insert new user and return user info to app (without password)
+			const { rows: [user] } = await query(`
+        INSERT INTO users (id, displayName, email, password)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, displayName, email, createdAt
+      `, [uuidV4(), displayName, email, hashedPassword]);
     
-		req.session.userId = user.id;
-		return res.send(user);
+			req.session.userId = user.id;
+			return res.send(user);
+		} catch (err) {
+			next(err);
+		}
 	} 
 );
 

@@ -38,7 +38,7 @@ app.use(morgan("tiny"));
 app.enable("trust proxy");
 app.use(session(sessionConfig));
 
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
 	res.send({ message: "Hello world" });
 });
 
@@ -46,7 +46,12 @@ app.use("/", authRouter);
 app.use("/todos", todosRouter);
 
 app.use((req, res) => {
-	res.status(404).json({ message: "route inaccessible or does not exist" });
+	res.status(404).send({ message: "route inaccessible or does not exist" });
+});
+
+app.use((err, req, res, next) => {
+	console.error(`Default error handler: ${err.stack}`);
+	res.status(500).send({ message: "something went wrong" });
 });
 
 module.exports = app;
