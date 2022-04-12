@@ -15,8 +15,8 @@ todosRouter.get("/",
 		const { rows: todos } = await query(`
       SELECT *
       FROM todos
-      WHERE userId=$1
-      ORDER BY "createdAt DESC, task
+      WHERE "userId"=$1
+      ORDER BY "createdAt" DESC, task
     `, [userId]);
 
 		return res.send(todos);
@@ -33,7 +33,7 @@ todosRouter.post("/",
 		const { rows: [todo] } = await query(`
       INSERT INTO todos (id, task, description, "isComplete", "userId")
       VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, task, description, "isComplete", "userId"
+      RETURNING id, task, description, "isComplete", "createdAt", "userId"
     `, [uuidV4(), task, description, isComplete, userId]);
     
 		return res.send(todo);
@@ -62,8 +62,9 @@ todosRouter.patch("/:id",
 
 		const { rows: [todo] } = await query(`
       UPDATE todos
-      SET task=$12, description=$3, isComplete=$4
+      SET task=$2, description=$3, "isComplete"=$4
       WHERE id=$1
+      RETURNING id, task, description, "isComplete", "createdAt", "userId"
     `, [id, task, description, isComplete]);
 
 		return res.send(todo);
@@ -85,7 +86,7 @@ todosRouter.delete("/:id",
 		if (rows.length !== 1)
 			res.status(404).send({ message: "todo not found" });
 
-		if (rows[0].userId !== req.session.user.id)
+		if (rows[0].userId !== req.session.userId)
 			return res.status(401).json({ message: "unauthorized" });
 
 		await query(`
