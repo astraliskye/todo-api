@@ -30,12 +30,13 @@ const paramIdSchema = Joi.object({
 	id: Joi.string().regex(uuidRegex).required()
 });
 
-function validUserSession(req, res, next) {
+async function validUserSession(req, res, next) {
 	const { userId } = req.session;
+	const { rows } = await query("SELECT * FROM users WHERE id=$1", [userId]);
 
-	const { rows } = query("SELECT * FROM users WHERE id=$1", [userId]);
+	console.log(`userId: ${userId}\nnumber of rows: ${rows.length}`);
 
-	if (rows === 1)
+	if (rows.length === 1)
 		next();
 	else
 		res.status(400).send({ message: "no valid user session" });

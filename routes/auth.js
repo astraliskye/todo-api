@@ -60,10 +60,10 @@ authRouter.post("/logout", (req, res) => {
 	return res.send({ message: "logout success" });
 });
 
-authRouter.get("/me", validUserSession, (req, res) => {
+authRouter.get("/me", validUserSession, async (req, res) => {
 	const {
 		rows: [user]
-	} = query("SELECT * FROM users WHERE id=$1", [req.session.userId]);
+	} = await query("SELECT * FROM users WHERE id=$1", [req.session.userId]);
 	user.password = undefined;
 	return res.send(user);
 });
