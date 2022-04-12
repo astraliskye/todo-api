@@ -36,8 +36,10 @@ authRouter.post("/register",
 
 authRouter.post("/login",
 	loginValidator, async (req, res) => {
-		const { password } = req.body;
-		const { rows } = await query("SELECT * FROM users WHERE email=$1");
+		const { email, password } = req.body;
+		const { rows } = await query(
+			"SELECT * FROM users WHERE email=$1", [email]
+		);
 
 		// If only one user exists for the given email and the password
 		// matches, the user is authenticated and the user's info is sent to
