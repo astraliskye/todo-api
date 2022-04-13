@@ -18,8 +18,8 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "dev": "nodemon .",
-    "start": "node .",
+    "dev": "nodemon src",
+    "start": "node src",
     "init-db": "psql -d todo -f create-tables.sql"
   },
   "devDependencies": {
