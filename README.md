@@ -1,3 +1,12 @@
-# Personal Organizer API
+# Todo API
 
-This API is solely inteded to serve as a backend for my personal organizer client. It is my glorified todo list
+## Summary
+This project utilizes the Express.js framework to create a RESTful API for managing a todo list.
+
+## Live Demo
+
+## Setting Up Locally
+
+### Requirements
+
+## API Routes
